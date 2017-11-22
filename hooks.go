@@ -34,7 +34,7 @@ func MyAuthCheck(object *coprocess.Object) (*coprocess.Object, error) {
 		Per:  1.0,
 	}
 	object.Metadata = map[string]string{
-		"Token": validKey,
+		"token": validKey,
 	}
 
 	return object, nil
