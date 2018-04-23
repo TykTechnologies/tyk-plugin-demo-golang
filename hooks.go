@@ -11,6 +11,7 @@ func MyPreHook(object *coprocess.Object) (*coprocess.Object, error) {
 	object.Request.SetHeaders = map[string]string{
 		"Myheader": "Myvalue",
 	}
+
 	return object, nil
 }
 
@@ -33,10 +34,10 @@ func MyAuthCheck(object *coprocess.Object) (*coprocess.Object, error) {
 		Rate: 1000.0,
 		Per:  1.0,
 	}
+
 	object.Metadata = map[string]string{
 		"token": validKey,
 	}
 
 	return object, nil
-
 }

@@ -3,8 +3,9 @@ package main
 import (
 	"log"
 
-	coprocess "github.com/TykTechnologies/tyk-protobuf/bindings/go"
 	"golang.org/x/net/context"
+
+	"github.com/TykTechnologies/tyk-protobuf/bindings/go"
 )
 
 // Dispatcher implementation
