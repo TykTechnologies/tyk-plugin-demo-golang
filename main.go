@@ -4,18 +4,32 @@ import (
 	"log"
 	"net"
 
-	"google.golang.org/grpc"
+	"net/http"
 
-	coprocess "github.com/TykTechnologies/tyk-protobuf/bindings/go"
+	"github.com/TykTechnologies/tyk-protobuf/bindings/go"
+	"google.golang.org/grpc"
+)
+
+const (
+	ListenAddress   = ":9111"
+	ManifestAddress = ":8888"
 )
 
 func main() {
-	lis, err := net.Listen("tcp", ":5000")
+	lis, err := net.Listen("tcp", ListenAddress)
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
-	log.Println("Listening...")
+
+	log.Println("Listening...", ListenAddress)
 	s := grpc.NewServer()
 	coprocess.RegisterDispatcherServer(s, &Dispatcher{})
-	s.Serve(lis)
+	go s.Serve(lis)
+
+	http.HandleFunc("/bundle.zip", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("received request for manifest")
+		http.ServeFile(w, r, "bundle.zip")
+	})
+
+	http.ListenAndServe(ManifestAddress, nil)
 }
