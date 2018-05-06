@@ -10,7 +10,14 @@
     "auth_check": {
       "name": "MyAuthCheck"
     },
-    "driver": "grpc"
+    "driver": "grpc",
+    "id_extractor": {
+      "extract_from": "header",
+      "extract_with": "value",
+      "extractor_config": {
+        "header_name": "Authorization"
+      }
+    }
   },
   "checksum": "",
   "signature": ""

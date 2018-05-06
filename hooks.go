@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/TykTechnologies/tyk-protobuf/bindings/go"
 )
@@ -29,10 +30,14 @@ func MyAuthCheck(object *coprocess.Object) (*coprocess.Object, error) {
 
 	log.Println("Successful authentication on MyAuthCheck")
 
+	// Set the ID extractor deadline, useful for caching valid keys:
+	extractorDeadline := time.Now().Add(time.Hour * 1).Unix()
+
 	// If the header value matches, the authentication is correct and we provide a session object:
 	object.Session = &coprocess.SessionState{
-		Rate: 1000.0,
-		Per:  1.0,
+		Rate:                1000.0,
+		Per:                 1.0,
+		IdExtractorDeadline: extractorDeadline,
 	}
 
 	object.Metadata = map[string]string{
