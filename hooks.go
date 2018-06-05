@@ -37,6 +37,8 @@ func MyAuthCheck(object *coprocess.Object) (*coprocess.Object, error) {
 	object.Session = &coprocess.SessionState{
 		Rate:                1000.0,
 		Per:                 1.0,
+		QuotaMax:            int64(1000),
+		QuotaRenews:         time.Now().Unix(),
 		IdExtractorDeadline: extractorDeadline,
 	}
 
