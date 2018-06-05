@@ -21,7 +21,7 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	log.Println("Listening...", ListenAddress)
+	log.Printf("starting grpc server on %v", ListenAddress)
 	s := grpc.NewServer()
 	coprocess.RegisterDispatcherServer(s, &Dispatcher{})
 	go s.Serve(lis)
@@ -31,5 +31,6 @@ func main() {
 		http.ServeFile(w, r, "bundle.zip")
 	})
 
-	http.ListenAndServe(ManifestAddress, nil)
+	log.Printf("starting bundle manifest server on %v", ManifestAddress)
+	log.Fatal(http.ListenAndServe(ManifestAddress, nil))
 }
